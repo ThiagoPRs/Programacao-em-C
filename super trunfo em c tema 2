@@ -1,0 +1,119 @@
+#include <stdio.h>  
+#include <string.h>  
+
+#define MAX_NOME 50  
+
+typedef struct {  
+    char nome[MAX_NOME];  
+    int populacao;  
+    float area;  
+    float pib;  
+    int pontos_turisticos;  
+    float densidade_demografica;  
+} Carta;  
+
+// Função para comparar as cartas com base no atributo escolhido  
+Carta comparar_cartas(Carta carta1, Carta carta2, int atributo) {  
+    Carta resultado;  
+    strcpy(resultado.nome, "Empate");  
+
+    switch (atributo) {  
+        case 1: // Comparando População  
+            if (carta1.populacao > carta2.populacao) {  
+                return carta1;  
+            } else if (carta1.populacao < carta2.populacao) {  
+                return carta2;  
+            }  
+            break;  
+
+        case 2: // Comparando Área  
+            if (carta1.area > carta2.area) {  
+                return carta1;  
+            } else if (carta1.area < carta2.area) {  
+                return carta2;  
+            }  
+            break;  
+
+        case 3: // Comparando PIB  
+            if (carta1.pib > carta2.pib) {  
+                return carta1;  
+            } else if (carta1.pib < carta2.pib) {  
+                return carta2;  
+            }  
+            break;  
+
+        case 4: // Comparando Número de pontos turísticos  
+            if (carta1.pontos_turisticos > carta2.pontos_turisticos) {  
+                return carta1;  
+            } else if (carta1.pontos_turisticos < carta2.pontos_turisticos) {  
+                return carta2;  
+            }  
+            break;  
+
+        case 5: // Comparando Densidade Demográfica (menor vence)  
+            if (carta1.densidade_demografica < carta2.densidade_demografica) {  
+                return carta1;  
+            } else if (carta1.densidade_demografica > carta2.densidade_demografica) {  
+                return carta2;  
+            }  
+            break;  
+
+        default:  
+            printf("Atributo inválido!\n");  
+            break;  
+    }  
+    
+    return resultado; // Retorna "Empate" se todas as comparações forem iguais  
+}  
+
+int main() {  
+    // Criar cartas (exemplo)  
+    Carta carta1 = {"Brasil", 211000000, 8515767.0, 2085000000.0, 20000, 25.79};  
+    Carta carta2 = {"Argentina", 45000000, 2780400.0, 449000000.0, 15000, 16.19};  
+
+    int escolha;  
+
+    // Exibir menu  
+    printf("Escolha um atributo para comparação:\n");  
+    printf("1 - População\n");  
+    printf("2 - Área\n");  
+    printf("3 - PIB\n");  
+    printf("4 - Número de pontos turísticos\n");  
+    printf("5 - Densidade demográfica\n");  
+
+    // Ler escolha do usuário  
+    printf("Digite o número do atributo desejado: ");  
+    scanf("%d", &escolha);  
+
+    // Comparar as cartas de acordo com a escolha do usuário  
+    Carta vencedor = comparar_cartas(carta1, carta2, escolha);  
+
+    // Exibir resultados  
+    if (strcmp(vencedor.nome, "Empate") == 0) {  
+        printf("Empate! As cartas têm valores iguais para o atributo escolhido.\n");  
+    } else {  
+        printf("Jogador 1: %s - Valor: ", carta1.nome);  
+        switch (escolha) {  
+            case 1: printf("%d\n", carta1.populacao); break;  
+            case 2: printf("%.2f\n", carta1.area); break;  
+            case 3: printf("%.2f\n", carta1.pib); break;  
+            case 4: printf("%d\n", carta1.pontos_turisticos); break;  
+            case 5: printf("%.2f\n", carta1.densidade_demografica); break;  
+            default: break;  
+        }  
+
+        printf("Jogador 2: %s - Valor: ", carta2.nome);  
+        switch (escolha) {  
+            case 1: printf("%d\n", carta2.populacao); break;  
+            case 2: printf("%.2f\n", carta2.area); break;  
+            case 3: printf("%.2f\n", carta2.pib); break;  
+            case 4: printf("%d\n", carta2.pontos_turisticos); break;  
+            case 5: printf("%.2f\n", carta2.densidade_demografica); break;  
+            default: break;  
+        }  
+
+        printf("Vencedor: %s\n", vencedor.nome);  
+    }  
+
+    return 0;  
+}  
