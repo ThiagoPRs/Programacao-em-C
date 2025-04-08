@@ -1,0 +1,115 @@
+#include <stdio.h>  
+#include <string.h>  
+
+typedef struct {  
+    char nome[30];  
+    int populacao; // em milhões  
+    int area; // em km²  
+    int pib; // em bilhões de dólares  
+    int densidadeDemografica; // habitantes por km²  
+} Pais;  
+
+void exibirCarta(Pais pais) {  
+    printf("País: %s\n", pais.nome);  
+    printf("População: %d milhões\n", pais.populacao);  
+    printf("Área: %d km²\n", pais.area);  
+    printf("PIB: %d bilhões de dólares\n", pais.pib);  
+    printf("Densidade Demográfica: %d habitantes/km²\n", pais.densidadeDemografica);  
+    printf("---------------------------------------------\n");  
+}  
+
+int main() {  
+    Pais cartas[2] = {  
+        {"Brasil", 213, 8515767, 2184, 25},  
+        {"Argentina", 45, 2780400, 450, 16}  
+    };  
+
+    int atributo1, atributo2;  
+    printf("Escolha dois atributos para comparar:\n");  
+    printf("1. População (milhões)\n");  
+    printf("2. Área (km²)\n");  
+    printf("3. PIB (bilhões de dólares)\n");  
+    printf("4. Densidade Demográfica (habitantes/km²)\n");  
+
+    // Escolher o primeiro atributo  
+    printf("Escolha o primeiro atributo (1-4): ");  
+    scanf("%d", &atributo1);  
+
+    // Verifica se o atributo escolhido é válido  
+    while (atributo1 < 1 || atributo1 > 4) {  
+        printf("Opção inválida. Escolha o primeiro atributo (1-4): ");  
+        scanf("%d", &atributo1);  
+    }  
+
+    // Escolher o segundo atributo  
+    printf("Escolha o segundo atributo (1-4, diferente do primeiro): ");  
+    scanf("%d", &atributo2);  
+
+    // Garante que o segundo atributo seja diferente do primeiro  
+    while (atributo2 < 1 || atributo2 > 4 || atributo2 == atributo1) {  
+        printf("Opção inválida. Escolha o segundo atributo (1-4, diferente do primeiro): ");  
+        scanf("%d", &atributo2);  
+    }  
+
+    // Comparação dos atributos  
+    int valor1[2], valor2[2];  
+    char* nomeAtributo1, * nomeAtributo2;  
+
+    // Define os nomes e valores dos atributos selecionados  
+    switch (atributo1) {  
+        case 1: nomeAtributo1 = "População"; valor1[0] = cartas[0].populacao; valor1[1] = cartas[1].populacao; break;  
+        case 2: nomeAtributo1 = "Área"; valor1[0] = cartas[0].area; valor1[1] = cartas[1].area; break;  
+        case 3: nomeAtributo1 = "PIB"; valor1[0] = cartas[0].pib; valor1[1] = cartas[1].pib; break;  
+        case 4: nomeAtributo1 = "Densidade Demográfica"; valor1[0] = cartas[0].densidadeDemografica; valor1[1] = cartas[1].densidadeDemografica; break;  
+    }  
+
+    switch (atributo2) {  
+        case 1: nomeAtributo2 = "População"; valor2[0] = cartas[0].populacao; valor2[1] = cartas[1].populacao; break;  
+        case 2: nomeAtributo2 = "Área"; valor2[0] = cartas[0].area; valor2[1] = cartas[1].area; break;  
+        case 3: nomeAtributo2 = "PIB"; valor2[0] = cartas[0].pib; valor2[1] = cartas[1].pib; break;  
+        case 4: nomeAtributo2 = "Densidade Demográfica"; valor2[0] = cartas[0].densidadeDemografica; valor2[1] = cartas[1].densidadeDemografica; break;  
+    }  
+
+    // Exibindo cartas e atributos selecionados  
+    printf("\nComparando cartas:\n");  
+    exibirCarta(cartas[0]);  
+    exibirCarta(cartas[1]);  
+
+    printf("Atributos escolhidos: %s e %s\n", nomeAtributo1, nomeAtributo2);  
+    printf("Valores: %s - %d, %s - %d\n", nomeAtributo1, valor1[0], nomeAtributo2, valor2[0]);  
+    printf("Valores: %s - %d, %s - %d\n", nomeAtributo1, valor1[1], nomeAtributo2, valor2[1]);  
+
+    // Comparação dos valores  
+    int pontos[2] = {0, 0};  
+
+    for (int i = 0; i < 2; i++) {  
+        // Comparando primeiro atributo  
+        if ((atributo1 == 4 && valor1[i] < valor1[1-i]) || (atributo1 != 4 && valor1[i] > valor1[1-i])) {  
+            pontos[i]++;  
+        }  
+
+        // Comparando segundo atributo  
+        if ((atributo2 == 4 && valor2[i] < valor2[1-i]) || (atributo2 != 4 && valor2[i] > valor2[1-i])) {  
+            pontos[i]++;  
+        }  
+    }  
+
+    // Soma dos pontos  
+    int soma1 = valor1[0] + valor2[0];  
+    int soma2 = valor1[1] + valor2[1];  
+
+    printf("\nSoma dos atributos para cada carta:\n");  
+    printf("%s: %d\n", cartas[0].nome, soma1);  
+    printf("%s: %d\n", cartas[1].nome, soma2);  
+
+    // Verificando resultado  
+    if (pontos[0] > pontos[1]) {  
+        printf("%s venceu!\n", cartas[0].nome);  
+    } else if (pontos[1] > pontos[0]) {  
+        printf("%s venceu!\n", cartas[1].nome);  
+    } else {  
+        printf("Empate!\n");  
+    }  
+
+    return 0;  
+}  
